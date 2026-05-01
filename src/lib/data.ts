@@ -397,3 +397,195 @@ export function getISPsByRank(): ISP[] {
 export function getISPsByFPSRank(): ISP[] {
   return [...isps].sort((a, b) => a.fpsRank - b.fpsRank);
 }
+
+// Area data for regional pages
+export interface Area {
+  id: string;
+  name: string;
+  slug: string;
+  region: string;
+  description: string;
+  population: string;
+  gamerPopulation: string;
+  localISPs: string[]; // ISP ids available in this area
+  localOnlyISPs: { name: string; description: string }[];
+  characteristics: string[];
+  faq: { question: string; answer: string }[];
+}
+
+export function getAreaBySlug(slug: string): Area | undefined {
+  return areas.find((a) => a.slug === slug);
+}
+
+export const areas: Area[] = [
+  {
+    id: "tokyo",
+    name: "東京",
+    slug: "tokyo",
+    region: "関東",
+    description: "全国最多のゲーマー人口を誇る東京エリア。全てのISPが利用可能で、NURO光やauひかりの独自回線も選べます。eスポーツイベントやゲーミングカフェも多数。",
+    population: "約1,400万人",
+    gamerPopulation: "推定280万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "au-hikari", "docomo-hikari"],
+    localOnlyISPs: [],
+    characteristics: ["全ISP利用可能", "NURO光エリア", "eスポーツ施設充実", "10Gbpsプラン対応エリア多数"],
+    faq: [
+      { question: "東京でping値が一番低い回線は？", answer: "東京ではNURO光が平均ping12ms、GameWith光が平均10msと低ping。ゲームサーバーが東京にあるタイトルが多いため、都内であればどの回線でも比較的低いpingが出やすいです。" },
+      { question: "東京のマンションでおすすめの回線は？", answer: "NURO光 for マンション（導入済み物件）が最安。未導入の場合はGameWith光かhi-ho with gamesがおすすめ。光コラボ系なら工事不要で乗り換えできます。" },
+      { question: "東京で10Gbpsプランが使えるエリアは？", answer: "23区内ではほぼ全域で10Gbps対応。NURO光10G、auひかり10G、フレッツ光クロスなどが利用可能です。" },
+    ],
+  },
+  {
+    id: "osaka",
+    name: "大阪",
+    slug: "osaka",
+    region: "関西",
+    description: "関西最大のゲーマー都市・大阪。eo光という関西限定の高速回線が利用可能で、独自回線ならではの安定性が強み。NURO光も関西エリアに対応しています。",
+    population: "約880万人",
+    gamerPopulation: "推定175万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "docomo-hikari"],
+    localOnlyISPs: [{ name: "eo光", description: "関西電力グループの独自回線。月額5,448円で安定した低遅延通信が可能。関西エリアでは実測速度トップクラス。" }],
+    characteristics: ["eo光エリア", "NURO光対応", "関西最大のゲーマー人口", "ゲーミングカフェ充実"],
+    faq: [
+      { question: "大阪でおすすめのゲーミング回線は？", answer: "大阪ではNURO光またはeo光がおすすめ。どちらも独自回線で混雑に強く、低ping・高速。eo光は関西限定で提供エリアが広いのが魅力です。" },
+      { question: "大阪でauひかりは使える？", answer: "大阪府ではauひかり（ホームタイプ）は提供エリア外です。マンションタイプは一部対応。代替としてeo光がauスマートバリュー対象です。" },
+      { question: "関西のゲーマーにeo光が人気の理由は？", answer: "独自回線で夜間も速度低下しにくい、月額料金がリーズナブル、関西エリアの実測速度が全国トップレベルという3点が支持されています。" },
+    ],
+  },
+  {
+    id: "nagoya",
+    name: "名古屋・愛知",
+    slug: "nagoya",
+    region: "東海",
+    description: "東海エリア最大の都市・名古屋。コミュファ光ゲーミングカスタムという東海限定のゲーマー特化回線が最大の差別化ポイント。NURO光も対応エリアです。",
+    population: "約750万人",
+    gamerPopulation: "推定150万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "au-hikari", "docomo-hikari"],
+    localOnlyISPs: [{ name: "コミュファ光ゲーミングカスタム", description: "中部電力系列の東海限定回線。ゲーミングカスタムプランでは専用帯域を確保し、プロチームも採用する低遅延環境を実現。月額6,490円。" }],
+    characteristics: ["コミュファ光ゲーミングカスタム対応", "NURO光エリア", "auひかり対応", "東海エリア独自の選択肢"],
+    faq: [
+      { question: "名古屋でゲーミングに最適な回線は？", answer: "名古屋ではコミュファ光ゲーミングカスタムが最強。東海限定の独自回線＋ゲーム専用帯域で、プロeスポーツチームも採用しています。" },
+      { question: "コミュファ光ゲーミングカスタムとNURO光どちらがいい？", answer: "ゲーム特化ならコミュファ光ゲーミングカスタム。総合的な速度ならNURO光。コミュファはゲーム専用帯域があり、ゴールデンタイムの安定性に優れています。" },
+      { question: "東海エリアでauひかりは使える？", answer: "愛知県ではauひかり（ホームタイプ）の提供が一部限定的。マンションタイプは対応物件あり。代替としてコミュファ光がauスマートバリュー対象です。" },
+    ],
+  },
+  {
+    id: "kanagawa",
+    name: "神奈川",
+    slug: "kanagawa",
+    region: "関東",
+    description: "東京に次ぐ人口を誇る神奈川。横浜・川崎エリアではNURO光が人気。全ISPが利用可能で、東京のゲームサーバーにも近く低pingが期待できます。",
+    population: "約920万人",
+    gamerPopulation: "推定185万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "au-hikari", "docomo-hikari"],
+    localOnlyISPs: [],
+    characteristics: ["全ISP利用可能", "NURO光人気エリア", "東京サーバーに近い", "10Gbps対応エリア拡大中"],
+    faq: [
+      { question: "神奈川でping値が低い回線は？", answer: "横浜・川崎エリアではNURO光が平均ping11-13ms。東京のサーバーとの距離が近いため、どの回線でも比較的低pingです。" },
+      { question: "神奈川でNURO光のエリアは？", answer: "横浜市、川崎市、相模原市を中心に神奈川県の広範囲で利用可能。ただし一部の山間部は対象外です。" },
+      { question: "神奈川の戸建てでおすすめは？", answer: "NURO光がコスパ・速度ともにベスト。auひかりも独自回線で安定しています。" },
+    ],
+  },
+  {
+    id: "saitama",
+    name: "埼玉",
+    slug: "saitama",
+    region: "関東",
+    description: "関東のベッドタウン・埼玉。全ISPが利用可能で、NURO光のエリアも広い。東京のサーバーに近く、光コラボ系でも十分低いpingが出ます。",
+    population: "約734万人",
+    gamerPopulation: "推定145万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "au-hikari", "docomo-hikari"],
+    localOnlyISPs: [],
+    characteristics: ["全ISP利用可能", "NURO光エリア", "東京サーバーに近い", "コスパ重視の選択肢豊富"],
+    faq: [
+      { question: "埼玉でゲーミングにおすすめの回線は？", answer: "NURO光が速度・ping・コスパのバランスが最良。GameWith光はゲーム特化で安定性が高い。" },
+      { question: "埼玉でマンション住まいの場合は？", answer: "NURO光 for マンション対応物件なら月額2,090円〜。未対応の場合はGameWith光またはドコモ光（v6プラス対応プロバイダ）がおすすめ。" },
+      { question: "さいたま市で10Gbpsは使える？", answer: "フレッツ光クロス（10G）がさいたま市の一部で提供開始。NURO光10Gも順次エリア拡大中です。" },
+    ],
+  },
+  {
+    id: "chiba",
+    name: "千葉",
+    slug: "chiba",
+    region: "関東",
+    description: "関東ベッドタウンの千葉エリア。NURO光のエリアが広く、全ISPが利用可能。幕張メッセでeスポーツイベントも開催され、ゲーマー人口が増加中。",
+    population: "約628万人",
+    gamerPopulation: "推定125万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "au-hikari", "docomo-hikari"],
+    localOnlyISPs: [],
+    characteristics: ["全ISP利用可能", "NURO光エリア", "幕張メッセ（eスポーツ会場）", "東京サーバーに近い"],
+    faq: [
+      { question: "千葉でおすすめのゲーミング回線は？", answer: "NURO光が第一候補。船橋・千葉市・柏エリアで広くカバー。auひかりも対応エリアが広いです。" },
+      { question: "千葉のマンションでおすすめは？", answer: "光コラボ系（GameWith光・hi-ho with games）なら工事不要で乗り換え可能。NURO光対応物件なら最安。" },
+      { question: "千葉から東京のサーバーまでのpingは？", answer: "千葉-東京間は物理距離が短いため、NURO光で10-14ms程度。光コラボ系でも15-20ms程度と良好です。" },
+    ],
+  },
+  {
+    id: "fukuoka",
+    name: "福岡",
+    slug: "fukuoka",
+    region: "九州",
+    description: "九州最大の都市・福岡。BBIQという九州限定の回線が人気。NURO光も福岡エリアに対応しており、ゲーマーの選択肢が充実しています。",
+    population: "約510万人",
+    gamerPopulation: "推定100万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "docomo-hikari"],
+    localOnlyISPs: [{ name: "BBIQ（ビビック）", description: "九州電力グループの独自回線。九州エリア限定で月額5,500円。独自回線のため混雑に強く、九州のゲーマーに支持されています。" }],
+    characteristics: ["BBIQ対応エリア", "NURO光エリア", "九州最大のゲーマー人口", "福岡eスポーツシーン活発"],
+    faq: [
+      { question: "福岡でおすすめのゲーミング回線は？", answer: "NURO光またはBBIQ。どちらも独自回線で安定。BBIQは九州限定で料金もリーズナブルです。" },
+      { question: "福岡から東京サーバーまでのpingは？", answer: "福岡-東京間は約15-25ms（回線による）。NURO光で15-18ms程度。FPSでも十分プレイ可能な数値です。" },
+      { question: "福岡でauひかりは使える？", answer: "福岡県ではauひかり戸建てタイプは提供エリア外。マンションタイプは一部対応。BBIQがauスマートバリュー対象です。" },
+    ],
+  },
+  {
+    id: "kyoto",
+    name: "京都",
+    slug: "kyoto",
+    region: "関西",
+    description: "関西の学術都市・京都。大学が多くゲーマー人口も豊富。eo光が利用可能で、NURO光のエリアも拡大中。学生ゲーマーにはコスパの良い回線が人気。",
+    population: "約256万人",
+    gamerPopulation: "推定50万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "docomo-hikari"],
+    localOnlyISPs: [{ name: "eo光", description: "関西電力グループの独自回線。月額5,448円で安定した低遅延通信。京都府全域で対応。" }],
+    characteristics: ["eo光エリア", "NURO光エリア", "学生ゲーマー多数", "コスパ重視の需要"],
+    faq: [
+      { question: "京都でゲーミングにおすすめの回線は？", answer: "eo光がコスパ・安定性のバランスが良い。NURO光も対応エリアなら速度面で優位。" },
+      { question: "京都の学生向けにおすすめは？", answer: "eo光の学割やドコモ光（学生向けキャンペーン）がコスパ良好。マンション一人暮らしならGameWith光もおすすめ。" },
+      { question: "京都でauひかりは使える？", answer: "京都府ではauひかり戸建ては提供エリア外。eo光がauスマートバリュー対象です。" },
+    ],
+  },
+  {
+    id: "hyogo",
+    name: "兵庫",
+    slug: "hyogo",
+    region: "関西",
+    description: "神戸を中心とする兵庫エリア。eo光が強いエリアで、NURO光も利用可能。神戸・姫路エリアにゲーマーが集中しています。",
+    population: "約546万人",
+    gamerPopulation: "推定110万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "docomo-hikari"],
+    localOnlyISPs: [{ name: "eo光", description: "関西電力グループの独自回線。兵庫県全域で対応。月額5,448円。" }],
+    characteristics: ["eo光エリア", "NURO光対応", "神戸・姫路にゲーマー集中", "阪神間のアクセス良好"],
+    faq: [
+      { question: "兵庫でおすすめのゲーミング回線は？", answer: "eo光またはNURO光。神戸市内ならどちらも利用可能。コスパならeo光、速度重視ならNURO光。" },
+      { question: "姫路でNURO光は使える？", answer: "姫路市の一部エリアでNURO光が利用可能。提供エリアは順次拡大中です。未対応の場合はeo光がおすすめ。" },
+      { question: "兵庫でauひかりは使える？", answer: "兵庫県ではauひかり戸建ては提供エリア外。eo光がauスマートバリュー対象で代替として最適です。" },
+    ],
+  },
+  {
+    id: "hokkaido",
+    name: "北海道・札幌",
+    slug: "hokkaido",
+    region: "北海道",
+    description: "北海道最大の都市・札幌を中心とするエリア。NURO光が札幌エリアに対応。東京サーバーとの距離があるため、独自回線を選ぶことがより重要です。",
+    population: "約522万人",
+    gamerPopulation: "推定105万人",
+    localISPs: ["nuro", "gamewith", "hi-ho", "au-hikari", "docomo-hikari"],
+    localOnlyISPs: [],
+    characteristics: ["NURO光対応（札幌中心）", "東京サーバーまで距離あり", "auひかり対応", "冬場の安定性が重要"],
+    faq: [
+      { question: "北海道でpingが低い回線は？", answer: "NURO光が札幌で平均15-20ms程度。東京サーバーまでの物理距離があるため、独自回線で経路を最適化できるNURO光・auひかりが有利です。" },
+      { question: "札幌でNURO光のエリアは？", answer: "札幌市の中央区・北区・東区・白石区・豊平区など主要エリアで対応。郊外は順次拡大中。" },
+      { question: "北海道の冬場に回線は安定する？", answer: "光回線自体は天候の影響を受けにくいです。ただしWi-Fiの電波は建物の構造に影響されるため、有線接続がゲーミングには推奨です。" },
+    ],
+  },
+];
